@@ -65,14 +65,18 @@ Read more in our [Architecture Guide](docs/architecture.md).
 
 ## 🚀 Installation
 
+> **Note:** The actual application binaries are hosted on the GitHub Releases page, not directly in the source code repository.
+
 ### Windows Portable (Zero Install)
-1. Download `Dastra-v1.0.0-rc.1-Windows-Portable.zip` from the [Releases](https://github.com/yourrepo/dastra/releases) page.
-2. Extract to a writable directory (e.g., your Desktop or a USB drive).
-3. Double-click `dastra.exe`.
+1. Navigate to the [Dastra GitHub Releases](https://github.com/PratikDas-VTU/Dastra/releases) page.
+2. Download `Dastra-v1.0.0-rc.1-Windows-Portable.zip` from the **Assets** section of the latest release.
+3. Extract to a writable directory (e.g., your Desktop or a USB drive).
+4. Double-click `dastra.exe`.
 
 ### Android
-1. Download `Dastra-v1.0.0-rc.1-Android.apk`.
-2. Tap the APK to install on your mobile device.
+1. Navigate to the [Dastra GitHub Releases](https://github.com/PratikDas-VTU/Dastra/releases) page.
+2. Download `Dastra-v1.0.0-rc.1-Android.apk` from the **Assets** section of the latest release.
+3. Tap the downloaded APK to install it on your mobile device (you may need to allow "Install from unknown sources" in your Android settings).
 
 *See the full [Installation Guide](release/installation-guide.md) for more details.*
 
@@ -82,7 +86,7 @@ Ensure you have the Flutter SDK (v3.x) installed.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/dastra.git
+git clone https://github.com/PratikDas-VTU/Dastra.git
 cd dastra
 
 # Install dependencies
