@@ -1,126 +1,60 @@
-<p align="center">
-  <img src="assets/screenshots/dastra_hero_banner.png" alt="Dastra Hero Banner">
-</p>
-
-<h1 align="center">Dastra</h1>
-
-<p align="center">
-  <strong>Your Ultimate Offline Productivity Suite</strong>
-</p>
+<h1 align="center">
+  <img src="assets/images/app_icon.png" width="120" alt="Dastra Logo"><br>
+  Dastra
+</h1>
 
 <p align="center">
-  <a href="#features">Features</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#architecture">Architecture</a> •
-  <a href="#building-from-source">Building</a> •
-  <a href="#roadmap">Roadmap</a>
+  <strong>Universal Offline Document & Media Engineering Suite</strong>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-v1.0%20RC1-blue" alt="Version">
-  <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Android-green" alt="Platforms">
-  <img src="https://img.shields.io/badge/Flutter-v3.x-02569B?logo=flutter" alt="Flutter">
-  <img src="https://img.shields.io/badge/License-Pending-orange" alt="License">
+  <a href="https://github.com/PratikDas-VTU/Dastra/releases/tag/v1.0.0-rc.1"><img src="https://img.shields.io/badge/Release-v1.0.0--rc.1-8B5CF6.svg?style=for-the-badge" alt="Release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge" alt="License"></a>
+  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Made%20with-Flutter-02569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" alt="Flutter"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Android-green.svg?style=for-the-badge" alt="Platform"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Privacy-100%25%20Offline-10B981.svg?style=for-the-badge" alt="Privacy"></a>
 </p>
 
 ---
 
-## ⚡ Introduction
+## 🚀 Overview
+Dastra is a powerful, beautifully designed productivity suite that operates **100% offline**. It consolidates multiple document manipulation, image processing, and security tools into a single desktop and mobile application. Built with Flutter, it ensures maximum speed and absolute privacy—zero telemetry, zero cloud uploads.
 
-In a world increasingly reliant on cloud services, **Dastra** guarantees that your sensitive documents, images, and credentials never leave your machine. Dastra is a privacy-first, 100% offline productivity suite built with Flutter and Native runtimes. 
+## ✨ Features
+- **📄 Document Engineering**: Merge PDFs, Split PDFs, compress documents, and convert PDFs to Images.
+- **🖼️ Image Utilities**: Compress images locally and perform offline format conversions without losing quality.
+- **🔒 Security Tools**: Generate unbreakable passwords, check password entropy, and verify local security offline.
+- **⚡ Offline-First Architecture**: Powered by SQLite for workspace history and natively embedded C++ engines (PDFium).
+- **🌟 Dastra Pro (Coming Soon)**: A glimpse into our future premium tier, unlocking PDF-to-Word, OCR, and Batch Processing.
 
-With a beautiful, adaptive Material 3 UI, Dastra feels perfectly at home whether you are on a multi-monitor desktop setup or on the go with your Android device.
+## 💾 Installation
 
-## ✨ Key Features
-
-| Category | Features |
-| :--- | :--- |
-| **📄 Documents** | Convert PDFs to Word (`.docx`), Merge PDFs, Split pages, Compress PDF file size. |
-| **🖼 Images** | Compress image file sizes drastically without noticeable quality loss. |
-| **🔐 Security** | Generate highly secure passwords offline, evaluate cryptographic strength. |
-| **🗃 Workspace** | Track your productivity with an integrated, searchable SQLite conversion history. |
-
-## 📸 Screenshots
-
-<table>
-  <tr>
-    <td align="center"><b>Desktop Dashboard</b></td>
-    <td align="center"><b>Android Experience</b></td>
-  </tr>
-  <tr>
-    <td><img src="assets/screenshots/dastra_dashboard.png" alt="Desktop Dashboard" width="400"/></td>
-    <td><img src="assets/screenshots/dastra_android.png" alt="Android Mockup" width="400"/></td>
-  </tr>
-</table>
-
-## 🏗 Architecture Overview
-
-Dastra employs a strict **Screen → Controller → Service → Storage** architectural pattern, heavily relying on Provider for state management. 
-
-For heavy lifting, Dastra uses an adaptive execution engine:
-- **Windows**: Bundles native Python executables (via PyInstaller) for complex document transformations.
-- **Android**: Falls back to Pure Dart processing libraries to ensure maximum compatibility within the mobile sandbox.
-
-Read more in our [Architecture Guide](docs/architecture.md).
-
-## 🚀 Installation
-
-> **Note:** The actual application binaries are hosted on the GitHub Releases page, not directly in the source code repository.
-
-### Windows Portable (Zero Install)
-1. Navigate to the [Dastra GitHub Releases](https://github.com/PratikDas-VTU/Dastra/releases) page.
-2. Download `Dastra-v1.0.0-rc.1-Windows-Portable.zip` from the **Assets** section of the latest release.
-3. Extract to a writable directory (e.g., your Desktop or a USB drive).
-4. Double-click `dastra.exe`.
+### Windows (x64)
+1. Navigate to the **[Releases](https://github.com/PratikDas-VTU/Dastra/releases)** page.
+2. Download `Dastra-Windows-x64.zip`.
+3. Extract the ZIP file to your preferred location.
+4. Ensure `pdfium.dll` and `sqlite3.dll` remain in the same directory as `dastra.exe`.
+5. Double-click `dastra.exe` to launch.
 
 ### Android
-1. Navigate to the [Dastra GitHub Releases](https://github.com/PratikDas-VTU/Dastra/releases) page.
-2. Download `Dastra-v1.0.0-rc.1-Android.apk` from the **Assets** section of the latest release.
-3. Tap the downloaded APK to install it on your mobile device (you may need to allow "Install from unknown sources" in your Android settings).
+1. Navigate to the **[Releases](https://github.com/PratikDas-VTU/Dastra/releases)** page.
+2. Download `dastra-public.apk` directly to your Android device.
+3. Tap the APK to install (you may need to allow installations from unknown sources).
 
-*See the full [Installation Guide](release/installation-guide.md) for more details.*
-
-## 💻 Building from Source
-
-Ensure you have the Flutter SDK (v3.x) installed.
-
-```bash
-# Clone the repository
-git clone https://github.com/PratikDas-VTU/Dastra.git
-cd dastra
-
-# Install dependencies
-flutter pub get
-
-# Build Windows Executable (Public Profile by default)
-flutter build windows --dart-define=BUILD_PROFILE=public
-
-# Build Android APK (Public Profile by default)
-flutter build apk --dart-define=BUILD_PROFILE=public
-```
-
-For advanced instructions, including Developer Build profiles and rebuilding bundled engines, see the [Build Guide](docs/build-guide.md) and [Premium Architecture Docs](docs/architecture/premium-architecture.md).
-
-## 🛡 Privacy First Philosophy
-
-Dastra contains **Zero Telemetry**. We do not track your usage, we do not require you to create an account, and we do not connect to the cloud. Your files remain exclusively on your local device.
-
-## 🗺 Roadmap
-
-- **v1.0 RC1**: Current - Material 3 Adaptive UI, Offline Docs, Images, Security, SQLite Workspace.
-- **v1.1**: Plugin API, Video Processing (FFmpeg), Audio Extraction.
-- **v2.0**: Local AI capabilities (Small Language Models), Universal macOS distribution.
-
-See the full [Roadmap](ROADMAP.md).
+## 🗺️ Roadmap
+- **v1.0.0 (Stable)**: Finalizing RC1 stability.
+- **v1.1.0**: Unlocking Dastra Pro subscription models and advanced PDF-to-Word features.
+- **v1.2.0**: Native macOS and Linux support.
+- **v2.0.0**: Local AI integration for intelligent document summarization.
 
 ## 🤝 Contributing
+Dastra v1.0.0-rc.1 is currently frozen for release. However, bug reports, feature requests, and documentation improvements are highly welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md).
+## 🛡️ Security & Privacy
+We take privacy seriously. Dastra is fundamentally offline. If you discover any security vulnerabilities, please refer to our [Security Policy](SECURITY.md).
 
-## 📜 License
-
-**Pending License Selection**. 
-*(This project is currently evaluating open-source licenses for the final v1.0 release. Please contact the maintainer for usage rights until the license is officially selected.)*
+## ⚖️ License
+Dastra is proudly open-source and licensed under the [Apache 2.0 License](LICENSE).
 
 ---
-<p align="center">Made with ❤️ by Pratik Das and the Open Source Community.</p>
+<p align="center"><i>Designed for Privacy and Speed. Developed by Pratik Das.</i></p>

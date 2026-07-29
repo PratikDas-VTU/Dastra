@@ -1,34 +1,24 @@
 # Contributing to Dastra
 
-Thank you for your interest in contributing to Dastra! Dastra is a privacy-first, offline productivity suite. We welcome contributions of all kinds: bug reports, feature requests, documentation improvements, and code contributions.
+Thank you for your interest in contributing to Dastra! Dastra is an offline-first productivity and document engineering suite built with Flutter.
 
 ## How to Contribute
+Since Dastra is currently in its RC1 freeze, we are primarily looking for:
+- Bug reports and issue tracking
+- Feature requests
+- Documentation improvements
 
-### 1. Reporting Bugs
-- Check the issue tracker to ensure the bug hasn't already been reported.
-- Open a new issue using the Bug Report template.
-- Include your operating system, Dastra version, and steps to reproduce.
+At this stage, large architectural pull requests may not be accepted without prior discussion.
 
-### 2. Suggesting Features
-- Open an issue using the Feature Request template.
-- Clearly describe the use case and why it benefits Dastra's offline-first philosophy.
+## Development Setup
+1. Ensure you have the Flutter SDK (>=3.3.0) installed.
+2. Clone the repository and run `flutter pub get`.
+3. To test the developer version, run `flutter run -d windows --dart-define=BUILD_PROFILE=developer`.
+4. Please follow the `docs/developer/` guidelines for adding new tools to the Tool Registry.
 
-### 3. Code Contributions
-- Fork the repository.
-- Create a feature branch (`git checkout -b feature/your-feature-name`).
-- Commit your changes with descriptive messages (`git commit -m 'Add new PDF compression engine'`).
-- Push to your branch (`git push origin feature/your-feature-name`).
-- Open a Pull Request.
+## Code Standards
+- Ensure `flutter analyze` passes perfectly.
+- Avoid introducing any cloud dependencies. Dastra is fundamentally offline.
+- Do not bypass the `FeatureGateService` for premium tools.
 
-## Coding Guidelines
-- **Architecture**: Dastra uses a `Screen -> Controller -> Service -> Storage` architecture. Ensure your changes respect these boundaries.
-- **State Management**: We use `Provider`. Do not introduce new state management libraries.
-- **Styling**: Always use the `BuildContext` extensions for theming (e.g., `context.colors`, `context.typography`). Avoid hardcoded colors.
-- **Privacy**: Dastra is offline-first. Never introduce features that send data over the network without explicit, opt-in user consent.
-
-## Running Tests
-Before opening a pull request, ensure your code passes all checks:
-```bash
-flutter analyze
-flutter test
-```
+We look forward to your contributions in the upcoming v1.1.0 cycle!
