@@ -1,0 +1,45 @@
+# IDEs and Tools
+.idea/
+*.iml
+.vscode/
+
+# Build and Generated Files
+/build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# Release Artifacts
+*.zip
+*_Portable/
+*.apk
+*.exe
+/releases/
+
+# Logs and Temp Outputs
+*.log
+test_output.*
+deps.txt
+*.tmp
+
+# Release Artifacts (Extra)
+*.aab
+*.msix
+*.appinstaller
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+dastra_workspace.db
+
+# Secrets & Configs
+.env
+*.key
+*.jks
+*.keystore
+local.properties
+secrets.json
+
+Dastra_Portable_Builds/
