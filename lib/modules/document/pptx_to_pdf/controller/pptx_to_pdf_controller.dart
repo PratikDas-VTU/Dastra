@@ -15,12 +15,15 @@ import '../../../workspace/domain/models/workspace_record.dart';
 import '../../../workspace/domain/workspace_repository.dart';
 import '../domain/pptx_to_pdf_service.dart';
 import '../../../../core/engine/manager/engine_manager.dart';
+import '../../../../core/premium/feature_gate_service.dart';
+import '../../../../core/utils/tool_registry.dart';
 
 class PptxToPdfController extends ChangeNotifier with DocumentProgressState {
   final PptxToPdfService _service;
   final EngineManager _engineManager;
   final OutputService _outputService;
   final WorkspaceRepository _workspaceRepository;
+  final FeatureGateService _featureGateService;
 
   DocumentJob? _job;
   DocumentJob? get job => _job;
@@ -38,7 +41,7 @@ class PptxToPdfController extends ChangeNotifier with DocumentProgressState {
   bool _isPlatformSupported = true;
   bool get isPlatformSupported => _isPlatformSupported;
 
-  PptxToPdfController(this._service, this._engineManager, this._outputService, this._workspaceRepository) {
+  PptxToPdfController(this._service, this._engineManager, this._outputService, this._workspaceRepository, this._featureGateService) {
     _checkAvailability();
   }
 
@@ -108,6 +111,13 @@ class PptxToPdfController extends ChangeNotifier with DocumentProgressState {
 
     if (kIsWeb) {
       setProcessingState(isProcessing: false, progress: 0, statusMessage: 'PPTX to PDF is not supported offline on Web.');
+      return;
+    }
+
+    try {
+      _featureGateService.ensureAccess(ToolIds.pptToPdf);
+    } catch (e) {
+      setProcessingState(isProcessing: false, progress: 0, statusMessage: e.toString());
       return;
     }
 

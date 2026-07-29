@@ -1,6 +1,7 @@
 // Data model representing a single productivity tool in Dastra
 import 'package:flutter/material.dart';
 import 'tool_category.dart';
+import 'feature_metadata.dart';
 
 /// Immutable model for a tool entry in the registry
 class ToolItem {
@@ -15,6 +16,7 @@ class ToolItem {
     this.supportedPlatforms,
     this.requiredRuntimes = const [],
     this.tags = const [],
+    this.metadata = const FeatureMetadata(),
   });
 
   /// Unique identifier — used for routing
@@ -46,4 +48,7 @@ class ToolItem {
 
   /// Tags for improving searchability
   final List<String> tags;
+
+  /// Feature metadata for availability and maturity
+  final FeatureMetadata metadata;
 }

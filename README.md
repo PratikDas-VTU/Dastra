@@ -92,14 +92,14 @@ cd dastra
 # Install dependencies
 flutter pub get
 
-# Build Windows Executable
-flutter build windows
+# Build Windows Executable (Public Profile by default)
+flutter build windows --dart-define=BUILD_PROFILE=public
 
-# Build Android APK
-flutter build apk
+# Build Android APK (Public Profile by default)
+flutter build apk --dart-define=BUILD_PROFILE=public
 ```
 
-For more advanced instructions (like rebuilding the bundled Python engines), see the [Build Guide](docs/build-guide.md).
+For advanced instructions, including Developer Build profiles and rebuilding bundled engines, see the [Build Guide](docs/build-guide.md) and [Premium Architecture Docs](docs/architecture/premium-architecture.md).
 
 ## 🛡 Privacy First Philosophy
 

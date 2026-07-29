@@ -2,6 +2,24 @@
 // To add a new tool, simply add a ToolItem to the relevant list below.
 import 'package:flutter/material.dart';
 import '../models/models.dart';
+import '../models/feature_metadata.dart';
+
+class ToolIds {
+  ToolIds._();
+  
+  static const String pdfToWord = 'pdf_to_word';
+  static const String wordToPdf = 'word_to_pdf';
+  static const String pptToPdf = 'ppt_to_pdf';
+  static const String pdfToImages = 'pdf_to_images';
+  static const String imagesToPdf = 'images_to_pdf';
+  static const String mergePdf = 'merge_pdf';
+  static const String splitPdf = 'split_pdf';
+  static const String compressPdf = 'compress_pdf';
+  static const String compressImage = 'compress_image';
+  static const String jpgPngConvert = 'jpg_png_convert';
+  static const String passwordGenerator = 'password_generator';
+  static const String passwordStrength = 'password_strength';
+}
 
 class ToolRegistry {
   ToolRegistry._();
@@ -9,7 +27,7 @@ class ToolRegistry {
   // ── Document Tools ────────────────────────────────────────────────────────
   static const List<ToolItem> documentTools = [
     ToolItem(
-      id: 'pdf_to_word',
+      id: ToolIds.pdfToWord,
       title: 'PDF to Word',
       description: 'Convert PDF documents to editable Word files',
       icon: Icons.description_rounded,
@@ -18,9 +36,10 @@ class ToolRegistry {
       route: '/document/pdf-to-word',
       supportedPlatforms: [TargetPlatform.windows, TargetPlatform.macOS, TargetPlatform.linux],
       requiredRuntimes: ['python'],
+      metadata: const FeatureMetadata(availability: FeatureAvailability.pro),
     ),
     ToolItem(
-      id: 'word_to_pdf',
+      id: ToolIds.wordToPdf,
       title: 'Word to PDF',
       description: 'Export Word documents as PDF files',
       icon: Icons.picture_as_pdf_rounded,
@@ -28,9 +47,10 @@ class ToolRegistry {
       gradientColors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
       route: '/document/word-to-pdf',
       supportedPlatforms: [TargetPlatform.windows, TargetPlatform.macOS, TargetPlatform.linux],
+      metadata: const FeatureMetadata(availability: FeatureAvailability.pro),
     ),
     ToolItem(
-      id: 'ppt_to_pdf',
+      id: ToolIds.pptToPdf,
       title: 'PPT to PDF',
       description: 'Convert PowerPoint presentations to PDF',
       icon: Icons.slideshow_rounded,
@@ -38,9 +58,10 @@ class ToolRegistry {
       gradientColors: [Color(0xFFF97316), Color(0xFFEC4899)],
       route: '/document/ppt-to-pdf',
       supportedPlatforms: [TargetPlatform.windows, TargetPlatform.macOS, TargetPlatform.linux],
+      metadata: const FeatureMetadata(availability: FeatureAvailability.pro),
     ),
     ToolItem(
-      id: 'pdf_to_images',
+      id: ToolIds.pdfToImages,
       title: 'PDF to Images',
       description: 'Convert PDF pages into image files',
       icon: Icons.image_rounded,
@@ -49,7 +70,7 @@ class ToolRegistry {
       route: '/document/pdf-to-images',
     ),
     ToolItem(
-      id: 'images_to_pdf',
+      id: ToolIds.imagesToPdf,
       title: 'Images to PDF',
       description: 'Combine images into a single PDF file',
       icon: Icons.collections_rounded,
@@ -58,7 +79,7 @@ class ToolRegistry {
       route: '/document/images-to-pdf',
     ),
     ToolItem(
-      id: 'merge_pdf',
+      id: ToolIds.mergePdf,
       title: 'Merge PDF',
       description: 'Combine multiple PDFs into one document',
       icon: Icons.merge_rounded,
@@ -67,7 +88,7 @@ class ToolRegistry {
       route: '/document/pdf-merge',
     ),
     ToolItem(
-      id: 'split_pdf',
+      id: ToolIds.splitPdf,
       title: 'Split PDF',
       description: 'Divide a PDF into separate pages or ranges',
       icon: Icons.call_split_rounded,
@@ -76,7 +97,7 @@ class ToolRegistry {
       route: '/document/pdf-split',
     ),
     ToolItem(
-      id: 'compress_pdf',
+      id: ToolIds.compressPdf,
       title: 'Compress PDF',
       description: 'Reduce PDF file size without losing quality',
       icon: Icons.compress_rounded,
@@ -91,7 +112,7 @@ class ToolRegistry {
   // ── Image Tools ───────────────────────────────────────────────────────────
   static const List<ToolItem> imageTools = [
     ToolItem(
-      id: 'compress_image',
+      id: ToolIds.compressImage,
       title: 'Compress Image',
       description: 'Reduce image file sizes while preserving quality',
       icon: Icons.photo_size_select_large_rounded,
@@ -101,7 +122,7 @@ class ToolRegistry {
 
     ),
     ToolItem(
-      id: 'jpg_png_convert',
+      id: ToolIds.jpgPngConvert,
       title: 'JPG ↔ PNG',
       description: 'Convert between JPG and PNG formats instantly',
       icon: Icons.swap_horiz_rounded,
@@ -115,7 +136,7 @@ class ToolRegistry {
   // ── Security Tools ────────────────────────────────────────────────────────
   static const List<ToolItem> securityTools = [
     ToolItem(
-      id: 'password_generator',
+      id: ToolIds.passwordGenerator,
       title: 'Password Generator',
       description: 'Generate strong, random passwords instantly',
       icon: Icons.key_rounded,
@@ -126,7 +147,7 @@ class ToolRegistry {
 
     ),
     ToolItem(
-      id: 'password_strength',
+      id: ToolIds.passwordStrength,
       title: 'Password Strength',
       description: 'Analyse and score the strength of any password',
       icon: Icons.security_rounded,

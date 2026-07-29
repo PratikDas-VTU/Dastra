@@ -23,6 +23,8 @@ import '../../modules/settings/settings_screen.dart';
 import '../../modules/about/about_screen.dart';
 import '../../modules/workspace/presentation/workspace_screen.dart';
 import '../shell/app_shell.dart';
+import '../utils/tool_registry.dart';
+import '../widgets/premium/gated_tool_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -75,15 +77,24 @@ class AppRouter {
               ),
               GoRoute(
                 path: 'pdf-to-word',
-                builder: (context, state) => const PdfToWordScreen(),
+                builder: (context, state) => const GatedToolScreen(
+                  toolId: ToolIds.pdfToWord,
+                  child: PdfToWordScreen(),
+                ),
               ),
               GoRoute(
                 path: 'ppt-to-pdf',
-                builder: (context, state) => const PptxToPdfScreen(),
+                builder: (context, state) => const GatedToolScreen(
+                  toolId: ToolIds.pptToPdf,
+                  child: PptxToPdfScreen(),
+                ),
               ),
               GoRoute(
                 path: 'word-to-pdf',
-                builder: (context, state) => const WordToPdfScreen(),
+                builder: (context, state) => const GatedToolScreen(
+                  toolId: ToolIds.wordToPdf,
+                  child: WordToPdfScreen(),
+                ),
               ),
               GoRoute(
                 path: 'compress-pdf',

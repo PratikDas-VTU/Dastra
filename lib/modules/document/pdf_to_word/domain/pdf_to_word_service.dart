@@ -3,11 +3,14 @@ import 'dart:io';
 import '../../../../core/engine/registry/engine_registry.dart';
 import '../../shared/model/pdf_operation_result.dart';
 import 'pdf_to_word_engine.dart';
+import '../../../../core/premium/feature_gate_service.dart';
+import '../../../../core/utils/tool_registry.dart';
 
 class PdfToWordService {
   final EngineRegistry _registry;
+  final FeatureGateService _featureGateService;
 
-  PdfToWordService(this._registry);
+  PdfToWordService(this._registry, this._featureGateService);
 
   Future<PdfToWordEngine?> resolveEngine() async {
     return await _registry.resolve<PdfToWordEngine>();
@@ -18,6 +21,7 @@ class PdfToWordService {
     String outputFileName,
     {StreamController<double>? progress}
   ) async {
+    _featureGateService.ensureAccess(ToolIds.pdfToWord);
     try {
       final engine = await resolveEngine();
       

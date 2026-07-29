@@ -138,7 +138,7 @@ class AboutScreen extends StatelessWidget {
                         children: [
                           DastraInfoTile(
                             label: 'Application Version',
-                            value: 'Version 1.0 RC1', // As requested explicitly
+                            value: 'Version: v1.0.0-rc.1', // As requested explicitly
                             icon: Icons.verified_rounded,
                             canCopy: true,
                           ),

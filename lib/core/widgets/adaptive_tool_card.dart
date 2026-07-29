@@ -4,6 +4,10 @@ import '../models/models.dart';
 import '../theme/theme.dart';
 import 'gradient_icon_box.dart';
 import '../utils/responsive.dart';
+import 'premium/pro_badge.dart';
+import '../di/service_locator.dart';
+import '../premium/feature_gate_service.dart';
+import 'premium/upgrade_dialog.dart';
 
 class AdaptiveToolCard extends StatefulWidget {
   const AdaptiveToolCard({
@@ -61,11 +65,21 @@ class _AdaptiveToolCardState extends State<AdaptiveToolCard> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: widget.isSupported ? widget.onTap : () {
-            // Show toast or snackbar
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(widget.unsupportedReason ?? 'Tool not supported on this platform.')),
-            );
+          onTap: () {
+            if (!widget.isSupported) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(widget.unsupportedReason ?? 'Tool not supported on this platform.')),
+              );
+              return;
+            }
+            
+            final gate = sl<FeatureGateService>();
+            if (!gate.canAccessTool(widget.tool.id)) {
+              UpgradeDialog.show(context, toolId: widget.tool.id);
+              return;
+            }
+            
+            widget.onTap();
           },
           onHover: (!isMob && widget.isSupported) ? (hovering) => setState(() => _hovered = hovering) : null,
           borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -91,6 +105,10 @@ class _AdaptiveToolCardState extends State<AdaptiveToolCard> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        if (widget.tool.metadata.isPro) ...[
+                          const ProBadge(),
+                          const SizedBox(width: 8),
+                        ],
                         if (!widget.isSupported)
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

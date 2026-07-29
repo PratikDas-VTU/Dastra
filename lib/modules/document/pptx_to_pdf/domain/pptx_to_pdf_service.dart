@@ -4,11 +4,14 @@ import 'dart:typed_data';
 import '../../../../core/engine/registry/engine_registry.dart';
 import '../../shared/model/pdf_operation_result.dart';
 import 'pptx_to_pdf_engine.dart';
+import '../../../../core/premium/feature_gate_service.dart';
+import '../../../../core/utils/tool_registry.dart';
 
 class PptxToPdfService {
   final EngineRegistry _registry;
+  final FeatureGateService _featureGateService;
 
-  PptxToPdfService(this._registry);
+  PptxToPdfService(this._registry, this._featureGateService);
 
   Future<PptxToPdfEngine?> resolveEngine() async {
     return await _registry.resolve<PptxToPdfEngine>();
@@ -19,6 +22,7 @@ class PptxToPdfService {
     String outputFileName,
     {StreamController<double>? progress}
   ) async {
+    _featureGateService.ensureAccess(ToolIds.pptToPdf);
     try {
       final engine = await resolveEngine();
       

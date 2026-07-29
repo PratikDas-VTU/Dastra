@@ -15,12 +15,15 @@ import '../../../workspace/domain/models/workspace_record.dart';
 import '../../../workspace/domain/workspace_repository.dart';
 import '../domain/word_to_pdf_service.dart';
 import '../../../../core/engine/manager/engine_manager.dart';
+import '../../../../core/premium/feature_gate_service.dart';
+import '../../../../core/utils/tool_registry.dart';
 
 class WordToPdfController extends ChangeNotifier with DocumentProgressState {
   final WordToPdfService _service;
   final EngineManager _engineManager;
   final OutputService _outputService;
   final WorkspaceRepository _workspaceRepository;
+  final FeatureGateService _featureGateService;
 
   DocumentJob? _job;
   DocumentJob? get job => _job;
@@ -38,7 +41,7 @@ class WordToPdfController extends ChangeNotifier with DocumentProgressState {
   bool _isPlatformSupported = true;
   bool get isPlatformSupported => _isPlatformSupported;
 
-  WordToPdfController(this._service, this._engineManager, this._outputService, this._workspaceRepository) {
+  WordToPdfController(this._service, this._engineManager, this._outputService, this._workspaceRepository, this._featureGateService) {
     _checkAvailability();
   }
 
@@ -108,6 +111,13 @@ class WordToPdfController extends ChangeNotifier with DocumentProgressState {
 
     if (kIsWeb) {
       setProcessingState(isProcessing: false, progress: 0, statusMessage: 'Word to PDF is not supported offline on Web.');
+      return;
+    }
+
+    try {
+      _featureGateService.ensureAccess(ToolIds.wordToPdf);
+    } catch (e) {
+      setProcessingState(isProcessing: false, progress: 0, statusMessage: e.toString());
       return;
     }
 

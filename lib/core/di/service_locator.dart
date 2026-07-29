@@ -4,6 +4,10 @@ import '../storage/storage_service.dart';
 import '../../modules/workspace/data/database_helper.dart';
 import '../services/runtime_capability_service.dart';
 
+import '../premium/license_manager.dart';
+import '../premium/subscription_service.dart';
+import '../premium/feature_gate_service.dart';
+
 import '../engine/manager/engine_manager.dart';
 import '../engine/registry/engine_registry.dart';
 import '../engine/models/engine_info.dart';
@@ -65,6 +69,17 @@ Future<void> setupServiceLocator() async {
   await runtimeCapabilityService.init();
   sl.registerSingleton<RuntimeCapabilityService>(runtimeCapabilityService);
 
+  print('  [sl] 1.8 Premium Services');
+  // Pass an empty list of providers for now. Providers will be added later.
+  final licenseManager = LicenseManager([]);
+  sl.registerSingleton<LicenseManager>(licenseManager);
+  
+  final subscriptionService = SubscriptionService(licenseManager);
+  await subscriptionService.initialize();
+  sl.registerSingleton<SubscriptionService>(subscriptionService);
+  
+  sl.registerSingleton<FeatureGateService>(FeatureGateService(subscriptionService));
+
   print('  [sl] 2. Core Engines Infrastructure');
   sl.registerLazySingleton<EngineManager>(() {
     final manager = EngineManager();
@@ -119,15 +134,15 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton<WorkspaceRepository>(() => WorkspaceRepository(sl()));
   sl.registerLazySingleton<OutputService>(() => OutputService(sl(), sl()));
   
-  sl.registerLazySingleton<PdfToWordService>(() => PdfToWordService(sl()));
-  sl.registerLazySingleton<PptxToPdfService>(() => PptxToPdfService(sl()));
-  sl.registerLazySingleton<WordToPdfService>(() => WordToPdfService(sl()));
+  sl.registerLazySingleton<PdfToWordService>(() => PdfToWordService(sl(), sl()));
+  sl.registerLazySingleton<PptxToPdfService>(() => PptxToPdfService(sl(), sl()));
+  sl.registerLazySingleton<WordToPdfService>(() => WordToPdfService(sl(), sl()));
   sl.registerLazySingleton<PdfCompressService>(() => PdfCompressService(sl()));
 
   // 4. Controllers
-  sl.registerFactory<PdfToWordController>(() => PdfToWordController(sl(), sl(), sl(), sl()));
-  sl.registerFactory<PptxToPdfController>(() => PptxToPdfController(sl(), sl(), sl(), sl()));
-  sl.registerFactory<WordToPdfController>(() => WordToPdfController(sl(), sl(), sl(), sl()));
+  sl.registerFactory<PdfToWordController>(() => PdfToWordController(sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory<PptxToPdfController>(() => PptxToPdfController(sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory<WordToPdfController>(() => WordToPdfController(sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory<PdfCompressController>(() => PdfCompressController(sl(), sl(), sl(), sl()));
 
   sl.registerFactory<PdfMergeController>(() => PdfMergeController(sl(), sl()));
