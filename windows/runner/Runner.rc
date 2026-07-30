@@ -90,10 +90,10 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "Pratik Das" "\0"
-            VALUE "FileDescription", "Offline Productivity Suite" "\0"
+            VALUE "FileDescription", "Dastra - Offline Productivity Suite" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "Dastra" "\0"
-            VALUE "LegalCopyright", "© 2026 Pratik Das" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 Pratik Das. All rights reserved." "\0"
             VALUE "OriginalFilename", "Dastra.exe" "\0"
             VALUE "ProductName", "Dastra" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

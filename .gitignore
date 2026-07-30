@@ -43,3 +43,6 @@ local.properties
 secrets.json
 
 Dastra_Portable_Builds/
+
+Dastra_Release_Artifacts/
+releases/

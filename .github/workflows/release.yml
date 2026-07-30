@@ -1,0 +1,114 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Triggers on semantic version tags e.g. v1.0.0
+
+jobs:
+  build_windows:
+    name: Build Windows Release
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build Windows Executable
+        run: flutter build windows --release
+
+      - name: Create Portable ZIP
+        run: |
+          Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath DastraPortable.zip
+
+      - name: Install Inno Setup
+        run: choco install innosetup
+
+      - name: Extract Version from Tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Compile Inno Setup Script
+        run: iscc /DMyAppVersion="${{ env.VERSION }}" scripts\windows_setup.iss
+
+      - name: Generate SHA256 Checksums (Windows)
+        run: |
+          (Get-FileHash releases\DastraSetup.exe).Hash + "  DastraSetup.exe" > windows_checksums.txt
+          (Get-FileHash DastraPortable.zip).Hash + "  DastraPortable.zip" >> windows_checksums.txt
+
+      - name: Upload Windows Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release
+          path: |
+            releases/DastraSetup.exe
+            DastraPortable.zip
+            windows_checksums.txt
+
+  build_android:
+    name: Build Android Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Generate SHA256 Checksum (Android)
+        run: |
+          sha256sum build/app/outputs/flutter-apk/app-release.apk > android_checksums.txt
+
+      - name: Upload Android Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            android_checksums.txt
+
+  create_release:
+    name: Create GitHub Release
+    needs: [build_windows, build_android]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Merge Checksums
+        run: |
+          cat windows-release/windows_checksums.txt android-release/android_checksums.txt > SHA256SUMS.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            windows-release/DastraSetup.exe
+            windows-release/DastraPortable.zip
+            android-release/app-release.apk
+            SHA256SUMS.txt
+          draft: false
+          prerelease: false
+          generate_release_notes: true
