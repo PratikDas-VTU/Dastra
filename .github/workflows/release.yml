@@ -22,7 +22,7 @@ jobs:
         run: flutter pub get
 
       - name: Build Windows Executable
-        run: flutter build windows --release
+        run: flutter build windows --release --dart-define=EDITION=Community --dart-define=BUILD_PROFILE=Public --dart-define=RELEASE_CHANNEL=Stable --dart-define=LICENSE_TIER=Community
 
       - name: Create Portable ZIP
         run: |
@@ -37,7 +37,7 @@ jobs:
         shell: bash
 
       - name: Compile Inno Setup Script
-        run: iscc /DMyAppVersion="${{ env.VERSION }}" scripts\windows_setup.iss
+        run: iscc /DMyAppName="Dastra" /DMyAppOutputBaseFilename="DastraSetup" /DMyAppVersion="${{ env.VERSION }}" scripts\windows_setup.iss
 
       - name: Generate SHA256 Checksums (Windows)
         run: |
@@ -75,7 +75,7 @@ jobs:
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --dart-define=EDITION=Community --dart-define=BUILD_PROFILE=Public --dart-define=RELEASE_CHANNEL=Stable --dart-define=LICENSE_TIER=Community
 
       - name: Generate SHA256 Checksum (Android)
         run: |

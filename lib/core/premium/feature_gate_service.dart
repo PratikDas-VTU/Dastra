@@ -42,6 +42,11 @@ class FeatureGateService {
       orElse: () => throw Exception('Tool $toolId not found in registry'),
     );
 
+    if (BuildConfig.isDeveloperEdition) {
+      _logAccessEvent(toolId, true, 'Developer Edition bypass');
+      return true;
+    }
+
     if (BuildConfig.isDeveloperProfile) {
       _logAccessEvent(toolId, true, 'Developer Profile bypass');
       return true;

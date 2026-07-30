@@ -2,14 +2,22 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'storage_strategy.dart';
+import '../config/build_config.dart';
 
 class StandardStorageStrategy implements StorageStrategy {
   late final String _appDataRoot;
 
   @override
   Future<void> initialize() async {
-    final docsDir = await getApplicationDocumentsDirectory();
-    _appDataRoot = p.join(docsDir.path, 'Dastra');
+    String basePath;
+    if (Platform.isWindows) {
+      basePath = Platform.environment['LOCALAPPDATA'] ?? (await getApplicationSupportDirectory()).path;
+    } else {
+      basePath = (await getApplicationSupportDirectory()).path;
+    }
+
+    final String folderName = BuildConfig.isDeveloperEdition ? 'DastraDeveloper' : 'Dastra';
+    _appDataRoot = p.join(basePath, folderName);
 
     await _ensureDirectoryExists(await getDatabaseDirectory());
     await _ensureDirectoryExists(await getSettingsDirectory());

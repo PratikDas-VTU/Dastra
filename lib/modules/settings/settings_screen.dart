@@ -10,6 +10,8 @@ import '../../core/di/service_locator.dart';
 import '../../core/theme/theme.dart';
 import '../../modules/workspace/domain/workspace_repository.dart';
 import 'controller/user_preferences_controller.dart';
+import '../../core/config/build_config.dart';
+import '../../core/storage/storage_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -238,6 +240,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
       if (context.mounted) {
         DastraSnackbar.show(context: context, message: 'Workspace history cleared');
       }
+    }
+  }
+
+  Future<void> _confirmResetLocalData(BuildContext context) async {
+    final confirmed = await DastraConfirmationDialog.show(
+      context: context,
+      title: 'Reset Local Data?',
+      message: 'DEVELOPER ONLY: This will permanently wipe all local application data (SQLite, Settings, Cache) and immediately restart the app.',
+      confirmLabel: 'Wipe Data & Restart',
+      cancelLabel: 'Cancel',
+      isDestructive: true,
+      icon: Icons.warning_rounded,
+    );
+
+    if (confirmed && context.mounted) {
+      await sl<StorageService>().resetLocalData();
     }
   }
 
@@ -510,6 +528,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onTap: () => context.push('/about'),
                 ),
             ).animate().fadeIn().slideY(begin: 0.05, end: 0),
+
+            if (BuildConfig.isDeveloperEdition) ...[
+              // 8. Developer Options Section
+              DastraContentSection(
+                title: 'Developer Options',
+                subtitle: 'Internal tools and diagnostics for the developer edition',
+                child: DastraSettingTile(
+                    title: 'Reset Local Data',
+                    description: 'Safely wipe all application data and restart',
+                    icon: Icons.warning_rounded,
+                    isDestructive: true,
+                    onTap: () => _confirmResetLocalData(context),
+                  ),
+              ).animate().fadeIn().slideY(begin: 0.05, end: 0),
+            ],
           ],
         ),
       ),

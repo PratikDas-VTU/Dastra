@@ -19,22 +19,18 @@ The installer is powered by Inno Setup and is defined in `scripts/windows_setup.
 ## Step-by-Step Local Build
 
 1.  **Bump the Version:** Update the version number in `pubspec.yaml` (e.g., `version: 1.1.0+2`). The CI pipeline automatically syncs this, but for local builds, ensure it matches your intentions.
-2.  **Build the Flutter Windows App:**
+2.  **Execute the Release Pipeline:**
+    We provide a fully automated PowerShell script that builds both the **Community Edition** and **Developer Edition** in sequence.
     ```powershell
-    flutter clean
-    flutter pub get
-    flutter build windows --release
+    .\scripts\build_release_editions.ps1
     ```
-    *This generates the standalone binaries in `build\windows\x64\runner\Release`.*
-
-3.  **Compile the Setup Executable:**
-    *   **Using CLI:**
-        ```powershell
-        iscc scripts\windows_setup.iss
-        ```
-    *   **Using GUI:** Open `scripts\windows_setup.iss` in the Inno Setup Compiler application and click "Compile".
     
-    *The final installer will be generated at `releases\DastraSetup.exe`.*
+    This script will:
+    * Compile the Developer Edition binaries with `EDITION=Developer` flags.
+    * Compile `DastraDeveloperSetup.exe` utilizing an isolated `%LOCALAPPDATA%\DastraDeveloper` directory.
+    * Compile the Community Edition binaries with `EDITION=Community` flags.
+    * Compile `DastraSetup.exe` utilizing the standard `%LOCALAPPDATA%\Dastra` directory.
+    * Export everything into `Dastra_Release_Artifacts\`.
 
 ## Continuous Integration (GitHub Actions)
 

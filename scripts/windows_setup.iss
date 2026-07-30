@@ -2,10 +2,18 @@
 ; Designed for Inno Setup 6+
 ; Supports both per-user and machine-wide installations.
 
+#ifndef MyAppName
 #define MyAppName "Dastra"
+#endif
+
 #ifndef MyAppVersion
 #define MyAppVersion "1.0.0"
 #endif
+
+#ifndef MyAppOutputBaseFilename
+#define MyAppOutputBaseFilename "DastraSetup"
+#endif
+
 #define MyAppPublisher "Pratik Das"
 #define MyAppURL "https://github.com/PratikDas-VTU/Dastra"
 #define MyAppExeName "dastra.exe"
@@ -33,7 +41,7 @@ DefaultGroupName={#MyAppName}
 
 ; Output configuration
 OutputDir=..\releases
-OutputBaseFilename=DastraSetup
+OutputBaseFilename={#MyAppOutputBaseFilename}
 SetupIconFile={#MyIconFile}
 
 ; Compression & Modernization
@@ -71,25 +79,24 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
+#ifndef MyAppDataFolder
+#define MyAppDataFolder "Dastra"
+#endif
+
 [Code]
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 var
-  AppDataDir: string;
   LocalAppDataDir: string;
 begin
   if CurUninstallStep = usPostUninstall then
   begin
-    AppDataDir := ExpandConstant('{userappdata}\{#MyAppName}');
-    LocalAppDataDir := ExpandConstant('{localappdata}\{#MyAppName}');
+    LocalAppDataDir := ExpandConstant('{localappdata}\{#MyAppDataFolder}');
     
-    if DirExists(AppDataDir) or DirExists(LocalAppDataDir) then
+    if DirExists(LocalAppDataDir) then
     begin
       if MsgBox('Do you also want to remove your Dastra application data and settings?', mbConfirmation, MB_YESNO) = idYes then
       begin
-        if DirExists(AppDataDir) then
-          DelTree(AppDataDir, True, True, True);
-        if DirExists(LocalAppDataDir) then
-          DelTree(LocalAppDataDir, True, True, True);
+        DelTree(LocalAppDataDir, True, True, True);
       end;
     end;
   end;

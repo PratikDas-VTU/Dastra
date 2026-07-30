@@ -2,6 +2,15 @@
 
 All notable changes to Dastra will be documented in this file.
 
+## [1.0.0] - 2026-07-30
+### Added
+- Official v1.0.0 Stable Release.
+- Dual-Edition Architecture: Introduced separated `Community` and `Developer` edition build profiles.
+- Native Windows Installer via Inno Setup, supporting both per-user and machine-wide installations.
+- Segregated `LOCALAPPDATA` storage strategy for robust testing and secure persistence.
+- Developer-only "Reset Local Data" diagnostics feature.
+- Fully automated PowerShell release pipeline (`build_release_editions.ps1`).
+
 ## [1.0.0-rc.1] - 2026-07-28
 ### Added
 - First official production release candidate (v1.0 RC1).

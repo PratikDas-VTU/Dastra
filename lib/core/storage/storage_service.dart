@@ -86,4 +86,32 @@ class StorageService {
     _settings[key] = value;
     await _saveSettings();
   }
+
+  /// Developer only: Wipe all local data and recreate directory structure
+  Future<void> resetLocalData() async {
+    _settings.clear();
+    
+    final dirsToWipe = [
+      await strategy.getDatabaseDirectory(),
+      await strategy.getSettingsDirectory(),
+      await strategy.getTempDirectory(),
+      await strategy.getLogsDirectory(),
+    ];
+
+    for (final dir in dirsToWipe) {
+      if (await dir.exists()) {
+        try {
+          await dir.delete(recursive: true);
+        } catch (_) {
+          // Ignore locks
+        }
+      }
+    }
+
+    // Recreate empty structure
+    await strategy.initialize();
+
+    // Terminate process to force a clean restart
+    exit(0);
+  }
 }

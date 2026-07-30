@@ -11,6 +11,7 @@ import 'core/di/service_locator.dart';
 import 'package:provider/provider.dart';
 import 'modules/settings/controller/user_preferences_controller.dart';
 import 'core/services/runtime_capability_service.dart';
+import 'core/config/build_config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +66,7 @@ class DastraApp extends StatelessWidget {
     }
 
     Widget app = MaterialApp.router(
-      title: 'Dastra',
+      title: BuildConfig.isDeveloperEdition ? 'Dastra Developer' : 'Dastra',
       debugShowCheckedModeBanner: false,
 
       theme: AppTheme.light,
